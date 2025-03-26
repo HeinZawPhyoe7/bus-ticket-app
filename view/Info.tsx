@@ -1,6 +1,5 @@
 "use client";
 
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -11,7 +10,91 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const page = () => {
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useState } from "react";
+import axios from "axios";
+
+const Info = ({ selectedSeatNo }: any) => {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [gender, setGender] = useState("");
+  const [nation, setNation] = useState("");
+  const [state, setState] = useState("");
+  const [town, setTown] = useState("");
+  const [citizenship, setCitizenship] = useState("");
+  const [nrcnumber, setNrcnumber] = useState("");
+  const [paymentType, setPaymentType] = useState("");
+  const [place, setPlace] = useState("");
+
+  const handleNameChange = (e: any) => {
+    setName(e.target.value);
+    console.log("counter");
+  };
+
+  const handlePhoneChange = (e: any) => {
+    setPhone(e.target.value);
+  };
+
+  const handleEmailChange = (e: any) => {
+    setEmail(e.target.value);
+  };
+
+  const handleGenderChange = (value: any) => {
+    setGender(value);
+  };
+
+  const handleNationChange = (value: any) => {
+    setNation(value);
+  };
+
+  const handleStateChange = (value: any) => {
+    setState(value);
+  };
+
+  const handleTownChange = (value: any) => {
+    setTown(value);
+  };
+
+  const handleCitizenshipChange = (value: any) => {
+    setCitizenship(value);
+  };
+
+  const handleNrcnumberChange = (e: any) => {
+    setNrcnumber(e.target.value);
+  };
+
+  const handlePlaceChange = (value: any) => {
+    setPlace(value);
+  };
+
+  const handleBuynow = async () => {
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/create-user`,
+        {
+          name: name,
+          phone: phone,
+          email: email,
+          gender: gender,
+          nation: nation,
+          state: state,
+          town: town,
+          citizenship: citizenship,
+          nrc_number: nrcnumber,
+          payment: paymentType,
+          pickup_place: place,
+          selectedSeatNo: selectedSeatNo,
+        }
+      );
+
+      console.log("Create successful:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Create failed:", error);
+    }
+  };
   return (
     <div className=" mt-4">
       <div className=" w-10/12 mx-auto">
@@ -20,6 +103,8 @@ const page = () => {
           <div className=" my-auto">Name:</div>
           <input
             type="text"
+            id="name"
+            onChange={handleNameChange}
             placeholder="Name"
             className=" border border-gray-300 shadow-md p-1.5"
           />
@@ -28,6 +113,8 @@ const page = () => {
           <div className=" my-auto">Contact No:</div>
           <input
             type="text"
+            id="phone"
+            onChange={handlePhoneChange}
             placeholder="Phone Number"
             className=" border border-gray-300 shadow-md p-1.5"
           />
@@ -36,6 +123,8 @@ const page = () => {
           <div className=" my-auto">Email:</div>
           <input
             type="text"
+            id="email"
+            onChange={handleEmailChange}
             placeholder="Email"
             className=" border border-gray-300 shadow-md p-1.5"
           />
@@ -43,8 +132,8 @@ const page = () => {
         <div className=" flex justify-between mb-5">
           <div className=" my-auto">Select Gender:</div>
           <div>
-            <Select>
-              <SelectTrigger className="w-[180px]">
+            <Select onValueChange={handleGenderChange}>
+              <SelectTrigger id="gender" className="w-[180px]">
                 <SelectValue placeholder="Select Gender" />
               </SelectTrigger>
               <SelectContent>
@@ -61,8 +150,8 @@ const page = () => {
         <div className=" flex justify-between mb-5">
           <div className=" my-auto">Select Nation:</div>
           <div>
-            <Select>
-              <SelectTrigger className="w-[180px]">
+            <Select onValueChange={handleNationChange}>
+              <SelectTrigger id="nation" className="w-[180px]">
                 <SelectValue placeholder="Select Nation" />
               </SelectTrigger>
               <SelectContent>
@@ -79,8 +168,8 @@ const page = () => {
           <h3 className=" mb-2">NRC No.</h3>
           <div className=" flex justify-between mb-2">
             <div>
-              <Select>
-                <SelectTrigger className="w-[70px]">
+              <Select onValueChange={handleStateChange}>
+                <SelectTrigger id="state" className="w-[70px]">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -104,8 +193,8 @@ const page = () => {
             </div>
             <p className="my-auto">/</p>
             <div>
-              <Select>
-                <SelectTrigger className="w-[140px]">
+              <Select onValueChange={handleTownChange}>
+                <SelectTrigger id="town" className="w-[140px]">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -148,8 +237,8 @@ const page = () => {
               </Select>
             </div>
             <div>
-              <Select>
-                <SelectTrigger className="w-[80px]">
+              <Select onValueChange={handleCitizenshipChange}>
+                <SelectTrigger id="citizenship" className="w-[80px]">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -168,51 +257,53 @@ const page = () => {
           <div>
             <input
               type="number"
+              onChange={handleNrcnumberChange}
               className=" border border-gray-400 p-1.5 shadow-md rounded-md "
               placeholder="NRC NUMBER"
             />
           </div>
         </div>
+
         <div className=" flex justify-between mb-7">
           <div>Payment Type:</div>
-          <div className="flex items-center space-x-2">
-            <Checkbox id="terms" />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Booking
-            </label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox id="terms" />
-            <label
-              htmlFor="terms"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Payment
-            </label>
-          </div>
+          <RadioGroup
+            value={paymentType}
+            onValueChange={setPaymentType}
+            className=" flex justify-center"
+          >
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="default" id="r1" />
+              <Label htmlFor="r1">Booking</Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="comfortable" id="r2" />
+              <Label htmlFor="r2">Payment</Label>
+            </div>
+          </RadioGroup>
         </div>
+
         <div className=" mb-10">
           <div className=" pb-2">Pickup Place</div>
           <div>
-            <Select>
-              <SelectTrigger className="w-[360px]">
+            <Select onValueChange={handlePlaceChange}>
+              <SelectTrigger id="place" className="w-[360px]">
                 <SelectValue placeholder="Select" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectItem value="Taunggyi">Taunggyi</SelectItem>
-                  <SelectItem value="Yangon">Yangon</SelectItem>
-                  <SelectItem value="Other">Other</SelectItem>
+                  <SelectItem value="Ayetharyar">Ayetharyar</SelectItem>
+                  <SelectItem value="Aungmingalar">Aungmingalar</SelectItem>
+                  <SelectItem value="Naung Shwe">Naung Shwe</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
           </div>
         </div>
         <div className=" text-center ">
-          <button className=" bg-sky-500 rounded-4xl text-white mx-auto p-1.5">
+          <button
+            onClick={handleBuynow}
+            className=" bg-sky-500 rounded-4xl text-white mx-auto p-1.5"
+          >
             Continue to Buy Now
           </button>
         </div>
@@ -226,4 +317,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Info;

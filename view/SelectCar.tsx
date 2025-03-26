@@ -1,33 +1,19 @@
 "use client";
 
 import axios from "axios";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const Page = () => {
-  const [tickets, setTickets] = useState<any[]>([]);
-
-  const fetchTickets = async () => {
-    try {
-      const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ticket-all`
-      );
-      console.log("Backend URL:", process.env.NEXT_PUBLIC_BACKEND_URL);
-
-      setTickets(response.data.ticket);
-    } catch (err) {
-      console.error("Error fetching tickets:", err);
-    }
+const SelectCar = ({ data }: any) => {
+  const handleChooseSeat = () => {
+    redirect("/home/seat");
   };
-
-  useEffect(() => {
-    fetchTickets();
-  }, []);
 
   return (
     <div>
       <div className=" mt-4">
-        {tickets.length > 0 ? (
-          tickets.map((ticket: any) => (
+        {data.length > 0 ? (
+          data.map((ticket: any) => (
             <div className="flex justify-between mx-auto gap-3" key={ticket.id}>
               <div className="text-[#31e4ba] text-sm mb-5 ">{ticket.class}</div>
               <div className=" mb-5 w-28">
@@ -48,7 +34,10 @@ const Page = () => {
                   </div>
                   <p className=" text-[#E50046] text-sm">{ticket.seat}</p>
                 </div>
-                <button className=" bg-sky-400 text-sm text-gray-100 rounded-3xl shadow-md p-2">
+                <button
+                  onClick={handleChooseSeat}
+                  className=" bg-sky-400 text-sm text-gray-100 rounded-3xl shadow-md p-2"
+                >
                   Choose Seat(s)
                 </button>
               </div>
@@ -62,4 +51,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default SelectCar;
