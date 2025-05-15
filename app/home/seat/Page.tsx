@@ -4,20 +4,14 @@ import { cn } from "@/lib/utils";
 import Info from "@/view/Info";
 import { Car } from "lucide-react";
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 
-const page = () => {
+const Page = () => {
   const numberList = [
     { seatNo: "A.1", id: "1" },
     { seatNo: "A.2", id: "2" },
@@ -50,7 +44,7 @@ const page = () => {
 
   const [selectedSeatNo, setSelectedSeatNo] = useState("");
 
-  const handleSelectSeat = (seatNo: any) => {
+  const handleSelectSeat = (seatNo: string) => {
     console.log("here", seatNo);
     setSelectedSeatNo(seatNo);
   };
@@ -97,4 +91,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
