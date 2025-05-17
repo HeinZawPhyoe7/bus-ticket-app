@@ -66,11 +66,13 @@ const Home = () => {
 
   return (
     <div className="text-center">
-      <div>Buy Ticket(s)</div>
+      <div className="mb-4 mt-6 font-bold text-4xl">Buy Ticket(s)</div>
 
       <div className="grid grid-cols-2 gap-24 ">
-        <div className="text-sm my-auto text-blue-500">Traveling from</div>
-        <div className="">
+        <div className="text-sm text-end my-auto text-blue-500 col-span-1">
+          Traveling from
+        </div>
+        <div className="col-span-1">
           <Select value={fromPlace} onValueChange={setFromPlace}>
             <SelectTrigger>
               <SelectValue placeholder="Select Place" />
@@ -87,8 +89,10 @@ const Home = () => {
       </div>
 
       <div className="grid grid-cols-2 gap-24 mt-5">
-        <div className="text-sm my-auto text-blue-500">Traveling to</div>
-        <div className="">
+        <div className="text-sm my-auto text-end text-blue-500 col-span-1">
+          Traveling to
+        </div>
+        <div className="col-span-1">
           <Select value={toPlace} onValueChange={setToPlace}>
             <SelectTrigger>
               <SelectValue placeholder="Select Place" />
@@ -104,52 +108,58 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="flex justify-center gap-24 mt-5">
-        <div className="text-sm my-auto text-blue-500">Departure Date</div>
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button
-              variant={"outline"}
-              className={cn(
-                "w-[240px] justify-start text-left font-normal",
-                !date && "text-muted-foreground"
-              )}
+      <div className="grid grid-cols-2 gap-24 mt-5">
+        <div className="col-span-1 text-sm my-auto text-end text-blue-500">
+          Departure Date
+        </div>
+        <div className="col-span-1 flex justify-self-start items-center">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  "w-[240px] justify-start text-left font-normal",
+                  !date && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon />
+                {date ? format(date, "PPP") : <span>Pick a date</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent
+              align="start"
+              className="flex w-auto flex-col space-y-2 p-2"
             >
-              <CalendarIcon />
-              {date ? format(date, "PPP") : <span>Pick a date</span>}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent
-            align="start"
-            className="flex w-auto flex-col space-y-2 p-2"
-          >
-            <Select
-              onValueChange={(value) =>
-                setDate(addDays(new Date(), parseInt(value)))
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent position="popper">
-                <SelectItem value="0">Today</SelectItem>
-                <SelectItem value="1">Tomorrow</SelectItem>
-                <SelectItem value="3">In 3 days</SelectItem>
-                <SelectItem value="7">In a week</SelectItem>
-              </SelectContent>
-            </Select>
-            <div className="rounded-md border">
-              <Calendar mode="single" selected={date} onSelect={setDate} />
-            </div>
-          </PopoverContent>
-        </Popover>
+              <Select
+                onValueChange={(value) =>
+                  setDate(addDays(new Date(), parseInt(value)))
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select" />
+                </SelectTrigger>
+                <SelectContent position="popper">
+                  <SelectItem value="0">Today</SelectItem>
+                  <SelectItem value="1">Tomorrow</SelectItem>
+                  <SelectItem value="3">In 3 days</SelectItem>
+                  <SelectItem value="7">In a week</SelectItem>
+                </SelectContent>
+              </Select>
+              <div className="rounded-md border">
+                <Calendar mode="single" selected={date} onSelect={setDate} />
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 mt-5 mb-10">
-        <div className="text-sm my-auto text-blue-500">Number of Seat</div>
-        <div>
+      <div className="grid grid-cols-2 mt-5 mb-10 gap-24">
+        <div className="col-span-1 text-end text-sm my-auto text-blue-500">
+          Number of Seat
+        </div>
+        <div className="col-span-1 text-start">
           <input
-            className="border border-gray-900 w-28"
+            className="border border-gray-900 w-28 p-1"
             type="number"
             value={seatCount}
             onChange={(e) => setSeatCount(Number(e.target.value))}
