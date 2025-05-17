@@ -4,14 +4,14 @@ import axios from "axios";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const SelectCar = ({ data }: any) => {
+const SelectCar = ({ data, seatCount }: any) => {
   const handleChooseSeat = () => {
-    redirect("/home/seat");
+    redirect(`/home/seat?seatCount=${seatCount}`);
   };
 
   return (
     <div>
-      <div className=" mt-4">
+      <div className=" mt-4 lg:px-[500px]">
         {data.length > 0 ? (
           data.map((ticket: any) => (
             <div className="flex justify-between mx-auto gap-3" key={ticket.id}>

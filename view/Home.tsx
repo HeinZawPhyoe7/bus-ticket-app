@@ -74,7 +74,7 @@ const Home = () => {
         </div>
         <div className="col-span-1">
           <Select value={fromPlace} onValueChange={setFromPlace}>
-            <SelectTrigger>
+            <SelectTrigger className="cursor-pointer">
               <SelectValue placeholder="Select Place" />
             </SelectTrigger>
             <SelectContent>
@@ -170,7 +170,7 @@ const Home = () => {
       <div className="relative">
         <button
           onClick={handleSearch}
-          className="relative rounded-md mx-auto pl-8 p-1.5 shadow-md text-white bg-blue-500 text-sm px-4"
+          className="relative rounded-md mx-auto pl-8 p-1.5 cursor-pointer shadow-md text-white bg-blue-500 text-sm px-4"
         >
           <Search
             className="p-0.5 text-sm absolute top-1 left-1"
@@ -181,7 +181,7 @@ const Home = () => {
       </div>
 
       <div className="mt-10">
-        <SelectCar data={data} />
+        <SelectCar data={data} seatCount={seatCount} />
       </div>
     </div>
   );

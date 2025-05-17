@@ -10,6 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useSearchParams } from "next/navigation";
 
 const Page = () => {
   const numberList = [
@@ -41,13 +42,26 @@ const Page = () => {
     { seatNo: "I.2", id: "26" },
     { seatNo: "I.3", id: "27" },
   ];
+  const searchParams = useSearchParams();
 
-  const [selectedSeatNo, setSelectedSeatNo] = useState("");
+  const seatCount = parseInt(searchParams.get("seatCount") || "0", 10);
+  const [selectedSeatNo, setSelectedSeatNo] = useState<string[]>([]);
 
   const handleSelectSeat = (seatNo: string) => {
     console.log("here", seatNo);
-    setSelectedSeatNo(seatNo);
+    setSelectedSeatNo((prev) => {
+      if (prev.includes(seatNo)) {
+        return prev.filter((s) => s !== seatNo);
+      } else {
+        if (prev.length >= seatCount) {
+          alert(`You can only select up to ${seatCount} seats.`);
+          return prev;
+        }
+        return [...prev, seatNo];
+      }
+    });
   };
+
   return (
     <div>
       <div className="px-12">
@@ -60,7 +74,7 @@ const Page = () => {
               onClick={() => handleSelectSeat(item.seatNo)}
               className={cn(
                 "text-center cursor-pointer hover:bg-sky-200 py-4 rounded-full border-2 ",
-                { "bg-yellow-400": selectedSeatNo === item.seatNo }
+                { "bg-yellow-400": selectedSeatNo.includes(item.seatNo) }
               )}
             >
               {item.seatNo}
@@ -72,12 +86,7 @@ const Page = () => {
       <div className="flex justify-center items-center mt-6">
         <Dialog>
           <DialogTrigger asChild>
-            <button
-              disabled={selectedSeatNo === ""}
-              className={cn("p-2 bg-green-400 text-white rounded-md", {
-                "bg-gray-400": selectedSeatNo === "",
-              })}
-            >
+            <button className={cn("p-2 bg-green-400 text-white rounded-md")}>
               Continue
             </button>
           </DialogTrigger>
