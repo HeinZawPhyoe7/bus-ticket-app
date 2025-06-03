@@ -1,5 +1,9 @@
 "use client";
 
+interface InfoProps {
+  selectedSeatNo: string[];
+}
+
 import {
   Select,
   SelectContent,
@@ -14,8 +18,10 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useState } from "react";
 import axios from "axios";
+import { useRouter, useSearchParams } from "next/navigation";
 
-const Info = ({ selectedSeatNo }: any) => {
+const Info: React.FC<InfoProps> = ({ selectedSeatNo }) => {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -27,7 +33,8 @@ const Info = ({ selectedSeatNo }: any) => {
   const [nrcnumber, setNrcnumber] = useState("");
   const [paymentType, setPaymentType] = useState("");
   const [place, setPlace] = useState("");
-
+  const searchParams = useSearchParams();
+  const totalSeat = searchParams.get("seatCount");
   const handleNameChange = (e: any) => {
     setName(e.target.value);
     console.log("counter");
@@ -85,11 +92,12 @@ const Info = ({ selectedSeatNo }: any) => {
           nrc_number: nrcnumber,
           payment: paymentType,
           pickup_place: place,
-          selectedSeatNo: selectedSeatNo,
+          selected_seat_no: selectedSeatNo,
+          total_seat: totalSeat,
         }
       );
-
       console.log("Create successful:", response.data);
+      router.push("/home/payment");
       return response.data;
     } catch (error) {
       console.error("Create failed:", error);
@@ -272,11 +280,11 @@ const Info = ({ selectedSeatNo }: any) => {
             className=" flex justify-center"
           >
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="default" id="r1" />
+              <RadioGroupItem value="Booking" id="r1" />
               <Label htmlFor="r1">Booking</Label>
             </div>
             <div className="flex items-center space-x-2">
-              <RadioGroupItem value="comfortable" id="r2" />
+              <RadioGroupItem value="Payment" id="r2" />
               <Label htmlFor="r2">Payment</Label>
             </div>
           </RadioGroup>
