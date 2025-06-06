@@ -45,6 +45,7 @@ const Page = () => {
   const searchParams = useSearchParams();
 
   const seatCount = parseInt(searchParams.get("seatCount") || "0", 10);
+  const ticketId = parseInt(searchParams.get("ticketId") || "0", 10);
   const [selectedSeatNo, setSelectedSeatNo] = useState<string[]>([]);
 
   const handleSelectSeat = (seatNo: string) => {
@@ -92,7 +93,7 @@ const Page = () => {
           </DialogTrigger>
           <DialogContent className="sm:max-w-[425px]">
             <DialogTitle>Add Info</DialogTitle>
-            <Info selectedSeatNo={selectedSeatNo} />
+            <Info selectedSeatNo={selectedSeatNo} ticketId={ticketId} />
           </DialogContent>
         </Dialog>
       </div>

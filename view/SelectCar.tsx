@@ -1,12 +1,10 @@
-"use client";
+"use Client";
 
-import axios from "axios";
 import { redirect } from "next/navigation";
-import { useEffect, useState } from "react";
 
 const SelectCar = ({ data, seatCount }: any) => {
-  const handleChooseSeat = () => {
-    redirect(`/home/seat?seatCount=${seatCount}`);
+  const handleChooseSeat = (ticketId: number) => {
+    redirect(`/home/seat?seatCount=${seatCount}&ticketId=${ticketId}`);
   };
 
   return (
@@ -35,7 +33,7 @@ const SelectCar = ({ data, seatCount }: any) => {
                   <p className=" text-[#E50046] text-sm">{ticket.seat}</p>
                 </div>
                 <button
-                  onClick={handleChooseSeat}
+                  onClick={() => handleChooseSeat(ticket.id)}
                   className=" bg-sky-400 text-sm text-gray-100 rounded-3xl shadow-md p-2"
                 >
                   Choose Seat(s)

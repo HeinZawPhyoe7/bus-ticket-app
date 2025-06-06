@@ -2,6 +2,7 @@
 
 interface InfoProps {
   selectedSeatNo: string[];
+  ticketId: number;
 }
 
 import {
@@ -20,7 +21,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 
-const Info: React.FC<InfoProps> = ({ selectedSeatNo }) => {
+const Info: React.FC<InfoProps> = ({ selectedSeatNo, ticketId }) => {
   const router = useRouter();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -35,6 +36,7 @@ const Info: React.FC<InfoProps> = ({ selectedSeatNo }) => {
   const [place, setPlace] = useState("");
   const searchParams = useSearchParams();
   const totalSeat = searchParams.get("seatCount");
+
   const handleNameChange = (e: any) => {
     setName(e.target.value);
     console.log("counter");
@@ -94,10 +96,11 @@ const Info: React.FC<InfoProps> = ({ selectedSeatNo }) => {
           pickup_place: place,
           selected_seat_no: selectedSeatNo,
           total_seat: totalSeat,
+          ticket_id: ticketId,
         }
       );
       console.log("Create successful:", response.data);
-      router.push("/home/payment");
+      router.push(`/home/payment/${ticketId}?name=${name}`);
       return response.data;
     } catch (error) {
       console.error("Create failed:", error);
